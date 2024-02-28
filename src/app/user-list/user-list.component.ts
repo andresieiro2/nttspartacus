@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-interface User {
-  name:string
-  createdAt:Date
-  id:string
-}
+import  { User } from '../models/user.model'
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import * as UserActions from '../store/user.actions';
+
 @Component({
   standalone: true,
   selector: 'app-user-list',
@@ -21,7 +22,7 @@ export class UserListComponent implements OnInit {
   userNameToUpdate: string = '';
   id: string = "";
 
-  constructor(private userService: UserService) { }
+  constructor(private store: Store<{ user: User }>,private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
     this.getUsers();
@@ -41,18 +42,14 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  onUpdate(): void {
-    this.userService.updateUser(this.id,this.userNameToUpdate).subscribe(() => {
-      console.log('Usuário atualizado com sucesso!');
-      this.getUsers();
-    });
+  onUpdate(user:User): void {
+    this.store.dispatch(UserActions.setUser({user}));
+    this.router.navigate(['/user/update']);
   }
 
-  onDelete(id:string): void {
-    this.userService.deleteUser(id).subscribe(() => {
-      console.log('Usuário deletado com sucesso!');
-      this.getUsers();
-    });
+  onDelete(user:User): void {
+    this.store.dispatch(UserActions.setUser({user}));
+    this.router.navigate(['/user/delete']);
   }
 
 

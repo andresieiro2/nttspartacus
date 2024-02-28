@@ -1,0 +1,23 @@
+<h2>Atualizacao de usuario</h2>
+
+<div class="ctn">
+
+
+  <form (ngSubmit)="onUpdate()">
+
+    <p ><b>ID: </b>{{user?.id}}</p>
+
+
+    <p ><b>Nome anterior: </b> {{user?.name}}</p>
+
+
+    <label>Novo nome:</label>
+    <input  type="text" id="name" name="name" [(ngModel)]="newName" required/><br/>
+    <button type="submit">Atualizar</button>
+  </form>
+
+
+</div>
+
+
+

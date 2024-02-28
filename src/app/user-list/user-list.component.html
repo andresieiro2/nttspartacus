@@ -6,7 +6,8 @@
       <td>Nome: {{ user.name }}</td>
       <td>Data de Criação: {{ user.createdAt }}</td>
       <td>ID: {{ user.id }}</td>
-      <td><button (click)="onDelete(user.id)">Excluir</button></td>
+      <td><button (click)="onUpdate(user)">Atualizar</button></td>
+      <td><button (click)="onDelete(user)">Excluir</button></td>
     </tr>
   </table>
 
@@ -17,16 +18,6 @@
         <label>Nome:</label>
         <input  type="text" id="name" name="name" [(ngModel)]="userName" required/><br/>
         <button type="submit">Cadastrar</button>
-      </form>
-    </div>
-    <div>
-      <h3>Atualizacao de usuario</h3>
-      <form (ngSubmit)="onUpdate()">
-        <label>id</label>
-        <input  type="text" id="id" name="id" [(ngModel)]="id" required/><br/>
-        <label>nome:</label>
-        <input  type="text" id="name" name="name" [(ngModel)]="userNameToUpdate" required/><br/>
-        <button type="submit">Atualizar</button>
       </form>
     </div>
   </div>
