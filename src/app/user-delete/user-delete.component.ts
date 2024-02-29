@@ -6,7 +6,7 @@ import  { User } from '../models/user.model'
 import { Store ,select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {selectUser} from '../store/user.selectors';
+import {selectActualUser} from '../store/user.selectors';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ export class UserDeleteComponent implements OnInit {
   constructor(private store: Store<{ user: User | null  }>,private userService: UserService,private router: Router) { }
 
   ngOnInit() {
-   this.store.pipe(select(selectUser)).subscribe(user => {
+   this.store.pipe(select(selectActualUser)).subscribe(user => {
       this.user = user;
     });;
   }

@@ -2,5 +2,7 @@
 import {User} from './../models/user.model'
 
 export interface UserState {
-  user: User | null
+  actualUser: User | null
+  users: User[]
+  error: Error | null
 }

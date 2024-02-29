@@ -7,20 +7,30 @@ import {UserState} from './user.state';
 
 
 const initialState: UserState = {
-  user: null,
+  actualUser: null,
+  users: [],
+  error: null
 };
 
 export const userReducer = createReducer(
   initialState,
-
-  on(UserActions.setUser, (state,  {user} ) => {
-
-    console.log('action',user)
-
-    return {
+  on(UserActions.loadUsers, state  => ({
+    ...state,
+    loading:true,
+  })),
+  on(UserActions.loadUsersSuccess, (state, { users }) => ({
+    ...state,
+    users,
+    loading: false
+  })),
+  on(UserActions.loadUsersFail, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+  on(UserActions.setActualUser, (state,  {user} ) => ({
       ...state,
-      user,
-    }
-  }
+      actualUser: user,
+    })
    )
 );

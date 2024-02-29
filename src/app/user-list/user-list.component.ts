@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import  { User } from '../models/user.model'
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import {selectUsers} from '../store/user.selectors';
 
 import * as UserActions from '../store/user.actions';
 
@@ -25,30 +26,26 @@ export class UserListComponent implements OnInit {
   constructor(private store: Store<{ user: User }>,private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.store.dispatch(UserActions.loadUsers());
+    this.store.pipe(select(selectUsers)).subscribe(users => {
+      this.users = users;
+    });;
   }
-
-  getUsers():void {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    });
-  }
-
 
   onCreate(): void {
     this.userService.createUser(this.userName).subscribe(() => {
       console.log('Usuário criado com sucesso!');
-      this.getUsers();
+      this.store.dispatch(UserActions.loadUsers());
     });
   }
 
   onUpdate(user:User): void {
-    this.store.dispatch(UserActions.setUser({user}));
+    this.store.dispatch(UserActions.setActualUser({user}));
     this.router.navigate(['/user/update']);
   }
 
   onDelete(user:User): void {
-    this.store.dispatch(UserActions.setUser({user}));
+    this.store.dispatch(UserActions.setActualUser({user}));
     this.router.navigate(['/user/delete']);
   }
 

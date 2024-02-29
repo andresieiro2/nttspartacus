@@ -5,7 +5,12 @@ import { UserState } from './user.state';
 
 export const selectUserState = createFeatureSelector<UserState>('user');
 
-export const selectUser = createSelector(
+export const selectActualUser = createSelector(
   selectUserState,
-  (state: UserState) => state.user
+  (state: UserState) => state.actualUser
+);
+
+export const selectUsers = createSelector(
+  selectUserState,
+  (state: UserState) => state.users
 );
